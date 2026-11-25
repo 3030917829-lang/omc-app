@@ -91,6 +91,9 @@
     <div class="entry" onclick="go('sys')"><div class="ic">🏛️</div><div class="lb">大学体系</div></div>
     <div class="entry" onclick="go('org')"><div class="ic">🧬</div><div class="lb">生命体</div></div>
     <div class="entry" onclick="go('me')"><div class="ic">🎓</div><div class="lb">学籍成绩单</div></div>
+    <div class="entry" onclick="go('faculty')"><div class="ic">👨‍🏫</div><div class="lb">师资名录</div></div>
+    <div class="entry" onclick="go('stage')"><div class="ic">📅</div><div class="lb">演出日历</div></div>
+    <div class="entry" onclick="go('library')"><div class="ic">📖</div><div class="lb">图书馆检索</div></div>
     <div class="entry" onclick="go('me')"><div class="ic">😴</div><div class="lb">静默期制度</div></div>
   </div>
   <div class="sec-title">🔔 通知中心</div>
@@ -193,6 +196,33 @@
   <div class="card" id="silBox"></div>
 </div>
 
+<!-- 师资名录（v9） -->
+<div class="page wrap" id="p-faculty">
+  <span class="back" onclick="go('home')">← 返回校园</span>
+  <div class="sec-title">👨‍🏫 真实师资库</div>
+  <div class="card" id="facHead"></div>
+  <div class="sec-title">名录</div>
+  <div id="facBox"></div>
+</div>
+
+<!-- 演出日历（v9） -->
+<div class="page wrap" id="p-stage">
+  <span class="back" onclick="go('home')">← 返回校园</span>
+  <div class="sec-title">📅 演出日历</div>
+  <div class="card" id="stageHead"></div>
+  <div id="stageBox"></div>
+</div>
+
+<!-- 图书馆（v9） -->
+<div class="page wrap" id="p-library">
+  <span class="back" onclick="go('home')">← 返回校园</span>
+  <div class="sec-title">📖 图书馆 · 档案中心</div>
+  <div class="card" id="libHead"></div>
+  <div class="label">检索</div>
+  <div class="card"><input id="libSearch" placeholder="输入关键词：五声 / 拉格 / 马卡姆 / 归途 / 校歌" oninput="libFilter()" style="width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:rgba(0,0,0,.25);color:#f5e9c8"></div>
+  <div id="libBox"></div>
+</div>
+
 <nav>
   <a class="on" onclick="go('home')" id="n-home"><span class="ni">🏠</span>校园</a>
   <a onclick="go('about')" id="n-about"><span class="ni">🏛️</span>我的</a>
@@ -201,6 +231,9 @@
   <a onclick="go('studio')" id="n-studio"><span class="ni">🎵</span>工坊</a>
   <a onclick="go('sys')" id="n-sys"><span class="ni">🏛️</span>体系</a>
   <a onclick="go('org')" id="n-org"><span class="ni">🧬</span>生命体</a>
+  <a onclick="go('faculty')" id="n-faculty"><span class="ni">👨‍🏫</span>师资</a>
+  <a onclick="go('stage')" id="n-stage"><span class="ni">📅</span>演出</a>
+  <a onclick="go('library')" id="n-library"><span class="ni">📖</span>图书馆</a>
 </nav>
 
 <script>
@@ -372,6 +405,50 @@ function go(p){
 }
 fetch('omc_data.json?t='+Date.now()).then(r=>r.json()).then(j=>{D=j;render();}).catch(()=>{render();});
 render();
+
+function libFilter(){
+  var L=window.__LIB; if(!L) return;
+  var q=(document.getElementById('libSearch')||{}).value||'';
+  q=q.trim();
+  var box=document.getElementById('libBox'); if(!box) return;
+  var list=(L.catalog||[]).filter(function(c){return !q||(c.c+c.d).indexOf(q)>=0});
+  box.innerHTML=list.map(function(c){
+    return '<div class="card"><h3>'+esc(c.c)+' <span class="tag">'+c.n+' 条</span></h3><p>'+esc(c.d)+'</p>'
+      +'<div class="bar"><i style="width:'+Math.min(100,Math.round(c.n/4500*100))+'%"></i></div></div>'}).join('')
+    + (list.length?'':'<div class="card"><p>未命中，换个关键词试试。</p></div>');
+}
 </script>
 </body>
 </html>
+  // ==== v9 师资 / 演出日历 / 图书馆 ====
+  if(D.faculty){
+    var f=D.faculty;
+    var fh=document.getElementById('facHead');
+    if(fh) fh.innerHTML='<p>'+esc(f.note||'')+'</p><div class="row"><b>在册</b><span>'+(f.list||[]).length+' 人</span></div>';
+    var fb=document.getElementById('facBox');
+    if(fb) fb.innerHTML=(f.list||[]).map(function(p){
+      return '<div class="card"><h3>'+esc(p.n)+' <span class="tag">'+esc(p.lv)+'</span></h3>'
+        +'<div class="meta">'+esc(p.t)+' · '+esc(p.dept)+'</div>'
+        +'<div class="row"><b>研究方向</b><span>'+esc(p.dir)+'</span></div>'
+        +'<div class="row"><b>代表作</b><span>'+esc(p.works)+'</span></div>'
+        +'<div class="row"><b>门下</b><span>'+esc(p.stu)+'</span></div></div>'}).join('');
+  }
+  if(D.calendar&&D.calendar.events){
+    var c=D.calendar;
+    var sh=document.getElementById('stageHead');
+    if(sh) sh.innerHTML='<div class="meta">'+esc(c.season||'')+' · '+(c.events||[]).length+' 场</div><p>'+esc(c.note||'')+'</p>';
+    var sb2=document.getElementById('stageBox');
+    if(sb2) sb2.innerHTML=(c.events||[]).map(function(e){
+      var kmap={'典礼':'🏛️','演出':'🎻','考核':'⚖️','静默':'😴','发行':'🎵','教学':'📖'};
+      return '<div class="card"><h3>'+(kmap[e.k]||'•')+' '+esc(e.t)+' <span class="tag">'+esc(e.k)+'</span></h3>'
+        +'<div class="meta">'+esc(e.d)+' · '+esc(e.v)+'</div></div>'}).join('');
+  }
+  if(D.library){
+    window.__LIB=D.library;
+    var lh=document.getElementById('libHead');
+    var tot=(D.library.catalog||[]).reduce(function(a,b){return a+(+b.n||0)},0);
+    if(lh) lh.innerHTML='<div class="row"><b>目标馆藏</b><span>'+esc(D.library.target||'')+'</span></div>'
+      +'<div class="row"><b>已入库</b><span>'+tot+' 条</span></div><p>'+esc(D.library.search_hint||'')+'</p>';
+    libFilter();
+  }
+

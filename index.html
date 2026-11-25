@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-12">
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>寰宇音乐大学 · OMC</title>
 <style>
@@ -58,10 +58,10 @@
   ul.req{list-style:none}
   ul.req li{font-size:12px;color:var(--sub);padding:3px 0 3px 16px;position:relative}
   ul.req li:before{content:"▸";position:absolute;left:0;color:var(--gold)}
-  nav{position:fixed;bottom:0;left:0;right:0;background:rgba(12,13,18,.95);backdrop-filter:blur(8px);border-top:1px solid var(--line);display:flex;z-index:30}
-  .nav::-webkit-scrollbar{display:none}
-nav button.nav,nav a{flex:0 0 auto;min-width:56px;width:auto;text-align:center;padding:8px 4px 10px;font-size:10px;color:var(--sub);cursor:pointer;border:none;background:none;font-family:inherit}
-nav a{flex:0 0 auto;text-align:center;padding:8px 0 10px;font-size:10px;color:var(--sub);cursor:pointer}
+  nav{position:fixed;bottom:0;left:0;right:0;background:rgba(12,13,18,.95);backdrop-filter:blur(8px);border-top:1px solid var(--line);display:flex;flex-wrap:nowrap;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;z-index:30}
+  nav::-webkit-scrollbar{display:none}
+  nav button.nav,nav a{flex:0 0 auto;min-width:56px;width:auto;text-align:center;padding:8px 4px 10px;font-size:10px;color:var(--sub);cursor:pointer;border:none;background:none;font-family:inherit;white-space:nowrap}
+  nav a{flex:0 0 auto;text-align:center;padding:8px 0 10px;font-size:10px;color:var(--sub);cursor:pointer}
   nav button.nav.on,nav a.on{color:var(--gold)}
   nav button.nav .ni,nav a .ni{font-size:18px;display:block}
   .empty{text-align:center;color:var(--sub);font-size:12px;padding:30px 0}
@@ -71,7 +71,7 @@ main{padding-bottom:76px}
 <body>
 <header>
   <div class="logo" id="hName">寰宇音乐大学<small>OMC</small></div>
-  <div class="ver"><span class="dot"></span><span id="hVer">v6.0.0</span></div>
+  <div class="ver"><span class="dot"></span><span id="hVer">v12.0.0</span></div>
 </header>
 
 <!-- 校园 / 首页 -->
@@ -97,12 +97,13 @@ main{padding-bottom:76px}
     <div class="entry" onclick="go('faculty')"><div class="ic">👨‍🏫</div><div class="lb">师资名录</div></div>
     <div class="entry" onclick="go('stage')"><div class="ic">📅</div><div class="lb">演出日历</div></div>
     <div class="entry" onclick="go('library')"><div class="ic">📖</div><div class="lb">图书馆检索</div></div>
+    <div class="entry" onclick="go('works')"><div class="ic">©</div><div class="lb">作品版权</div></div>
     <div class="entry" onclick="go('chat')"><div class="ic">🗣️</div><div class="lb">问元宝 · AI导师</div></div>
     <div class="entry" onclick="go('me')"><div class="ic">😴</div><div class="lb">静默期制度</div></div>
   </div>
   <div class="sec-title">🔔 通知中心</div>
   <div class="notif" id="notifBox"></div>
-  <div class="auto">🔄 <b>自动更新已启用</b> · 当前 <span id="autoVer">v6.0.0</span> · 内容包更新于 <span id="autoDate"></span><br>打开 App 自动比对云端版本，有新版自动下载，图标不变。</div>
+  <div class="auto">🔄 <b>自动更新已启用</b> · 当前 <span id="autoVer">v12.0.0</span> · 内容包更新于 <span id="autoDate"></span><br>打开 App 自动比对云端版本，有新版自动下载，图标不变。</div>
 </div>
 
 <!-- 我的大学 -->
@@ -227,56 +228,41 @@ main{padding-bottom:76px}
   <div id="libBox"></div>
 </div>
 
-<nav>
-  <a class="on" onclick="go('home')" id="n-home"><span class="ni">🏠</span>校园</a>
-  <a onclick="go('about')" id="n-about"><span class="ni">🏛️</span>我的</a>
-  <a onclick="go('course')" id="n-course"><span class="ni">📚</span>课程</a>
-  <a onclick="go('brain')" id="n-brain"><span class="ni">🧠</span>脑库</a>
-  <a onclick="go('studio')" id="n-studio"><span class="ni">🎵</span>工坊</a>
-  <a onclick="go('sys')" id="n-sys"><span class="ni">🏛️</span>体系</a>
-  <a onclick="go('org')" id="n-org"><span class="ni">🧬</span>生命体</a>
-  <a onclick="go('faculty')" id="n-faculty"><span class="ni">👨‍🏫</span>师资</a>
-  <a onclick="go('stage')" id="n-stage"><span class="ni">📅</span>演出</a>
-  <a onclick="go('library')" id="n-library"><span class="ni">📖</span>图书馆</a>
-  <button class="nav" data-p="enroll">🎓<span>学籍</span></button>
-<button class="nav" data-p="show">🎪<span>演出</span></button>
-<button class="nav" data-p="works">©<span>作品</span></button>
-  <button class="nav" data-p="chat">🗣️<span>对话</span></button>
-</nav>
-
-
 <!-- ===== v10 学籍 ===== -->
-<section class="page" id="p-enroll">
-  <h2>🎓 学籍与成绩系统</h2>
-  <p class="muted">面向全体在读生：注册 · 选课 · 成绩 · 绩点 · 毕业审核</p>
-  <div class="card"><b id="en-status"></b><div class="muted" id="en-cap"></div></div>
-  <div class="card"><h4>入学八步</h4><div class="muted" id="en-flow"></div></div>
+<div class="page wrap" id="p-enroll">
+  <span class="back" onclick="go('home')">← 返回校园</span>
+  <div class="sec-title">🎓 学籍与成绩系统</div>
+  <div class="card"><b id="en-status"></b><div class="meta" id="en-cap"></div></div>
+  <div class="card"><h4>入学八步</h4><div class="meta" id="en-flow"></div></div>
   <div class="card"><h4>在读名册</h4><div id="en-roster"></div></div>
   <div class="card"><h4>成绩记录</h4><div id="en-grades"></div></div>
-  <div class="card"><h4>学籍规则</h4><ul id="en-rules"></ul></div>
-</section>
+  <div class="card"><h4>学籍规则</h4><ul class="req" id="en-rules"></ul></div>
+</div>
 
 <!-- ===== v10 演出 ===== -->
-<section class="page" id="p-show">
-  <h2>🎪 演出与票务闭环</h2>
-  <p class="muted">发布 → 预约 → 到场 → 录制 → 复盘 → 归档</p>
-  <div class="card"><h4>闭环六环</h4><div class="muted" id="show-loop"></div></div>
-  <div class="card"><h4>本季演出</h4><div id="show-list"></div></div>
-</section>
+<div class="page wrap" id="p-show">
+  <span class="back" onclick="go('home')">← 返回校园</span>
+  <div class="sec-title">🎪 演出与票务闭环</div>
+  <div class="card"><div class="meta">发布 → 预约 → 到场 → 录制 → 复盘 → 归档</div><div class="meta" id="show-loop"></div></div>
+  <div class="sec-title">本季演出</div>
+  <div id="show-list"></div>
+</div>
 
 <!-- ===== v10 作品 ===== -->
-<section class="page" id="p-works">
-  <h2>© 作品库与版权登记</h2>
-  <p class="muted">ISWC / ISRC 双编号 · 署名不可省略</p>
+<div class="page wrap" id="p-works">
+  <span class="back" onclick="go('home')">← 返回校园</span>
+  <div class="sec-title">© 作品库与版权登记</div>
+  <div class="card"><div class="meta">ISWC / ISRC 双编号 · 署名不可省略</div></div>
   <div class="card"><h4>已登记作品</h4><div id="works-list"></div></div>
-  <div class="card"><h4>版权规则</h4><ul id="works-rules"></ul></div>
+  <div class="card"><h4>版权规则</h4><ul class="req" id="works-rules"></ul></div>
   <div class="card"><h4>首轮奖助学金发放（内分泌）</h4><div id="sch-award-box"></div></div>
-</section>
+</div>
 
 <!-- ===== v11 AI 导师对话（意识接口） ===== -->
-<section class="page" id="p-chat">
-  <h2>🗣️ 问元宝 · AI 导师</h2>
-  <p class="muted">联网查询 · 全校框架大数据 · 一脑（元宝）一意识（你）</p>
+<div class="page wrap" id="p-chat">
+  <span class="back" onclick="go('home')">← 返回校园</span>
+  <div class="sec-title">🗣️ 问元宝 · AI 导师</div>
+  <div class="card"><div class="meta">联网查询 · 全校框架大数据 · 一脑（元宝）一意识（你）</div></div>
   <div class="card" id="chatBox"></div>
   <div class="label">快捷提问</div>
   <div id="chatQuick"></div>
@@ -286,40 +272,56 @@ main{padding-bottom:76px}
       <button class="nav" style="flex:1" onclick="chatSend()">发送 ↵</button>
       <button class="nav" onclick="chatClear()">清空</button>
     </div>
-    <div class="muted" style="margin-top:8px;font-size:.75em" id="chatSrc"></div>
+    <div class="meta" style="margin-top:8px;font-size:.75em" id="chatSrc"></div>
   </div>
-</section>
+</div>
+
+<nav>
+  <a class="on" data-p="home" id="n-home"><span class="ni">🏠</span>校园</a>
+  <a data-p="about" id="n-about"><span class="ni">🏛️</span>我的</a>
+  <a data-p="course" id="n-course"><span class="ni">📚</span>课程</a>
+  <a data-p="brain" id="n-brain"><span class="ni">🧠</span>脑库</a>
+  <a data-p="studio" id="n-studio"><span class="ni">🎵</span>工坊</a>
+  <a data-p="sys" id="n-sys"><span class="ni">🏛️</span>体系</a>
+  <a data-p="org" id="n-org"><span class="ni">🧬</span>生命体</a>
+  <a data-p="faculty" id="n-faculty"><span class="ni">👨‍🏫</span>师资</a>
+  <a data-p="stage" id="n-stage"><span class="ni">📅</span>演出</a>
+  <a data-p="library" id="n-library"><span class="ni">📖</span>图书</a>
+  <a data-p="enroll" id="n-enroll"><span class="ni">🎓</span>学籍</a>
+  <a data-p="show" id="n-show"><span class="ni">🎪</span>演出季</a>
+  <a data-p="works" id="n-works"><span class="ni">©</span>作品</a>
+  <a data-p="chat" id="n-chat"><span class="ni">🗣️</span>对话</a>
+</nav>
 
 <script>
-const FALLBACK = {"ver":"6.0.0","updated":"2026-11-25 大学根本制度版 v6.0","meta":{"name":"寰宇音乐大学","short":"OMC","slogan":"吸收一切，然后成为自己","type":"世界音乐融合型创作院校 / 作品工坊 / 乐坛输出口","motto":"歌声即姓名"},"stats":{"depts":7,"profs":11,"students":1,"graduated":0,"degrees":3,"courses":13},"governance":[{"role":"校董会主席","who":"一号学员","duty":"定方向、批预算、任命教授、授予学位"},{"role":"校长/教务长","who":"元宝","duty":"学术体系、脑库调度、教学质量把关"},{"role":"反例学院院长","who":"校长兼","duty":"毕业作品终审，专治自嗨"},{"role":"学术委员会","who":"七院教授联席","duty":"课程标准审定、学位授予评议"}],"degrees":[{"n":"音乐学士 BMus","lv":"本科","credit":120,"years":"4年/8学期","req":["通识30学分","专业核心60学分","创作实践24学分","毕业作品6学分"],"desc":"打通一院到六院基础盘，能独立完成一首合格作品"},{"n":"音乐硕士 MMus","lv":"研究生","credit":60,"years":"2年/4学期","req":["主修体系专精24学分","跨学科融合18学分","论文/作品集18学分"],"desc":"单一体系内达到专业深度并完成一次成功融合"},{"n":"音乐艺术博士 DMA","lv":"博士","credit":60,"years":"3年/6学期","req":["原创理论体系24学分","代表作3部","公开答辩通过"],"desc":"为世界音乐融合贡献可被后人使用的新方法"}],"depts":[{"n":"第一院 · 世界旋律研究院","d":"五声、拉格、马卡姆、格里奥，母语音阶的全球化写作","major":"旋律写作/调式学","credit":24},{"n":"第二院 · 节奏与律动学院","d":"从西非鼓语到电子律动，身体先于大脑","major":"节奏设计/律动工程","credit":18},{"n":"第三院 · 词学与共鸣学院","d":"汉语声韵、词曲咬合、跨语种可翻译写作","major":"词作/声韵学","credit":18},{"n":"第四院 · 编曲制作与声音设计","d":"配器、和声色彩、混音母带实战","major":"编曲/声音设计","credit":24},{"n":"第五院 · 表演与人格学院","d":"情绪必然性训练，舞台即人格","major":"声乐/舞台人格","credit":12},{"n":"第六院 · 乐坛战略学院","d":"榜单逻辑、发行节奏、IP运营","major":"发行/IP运营","credit":12},{"n":"第七院 · 反例学院","d":"失败解剖学——最狠的一院，专治自嗨","major":"批判/复审","credit":12}],"profs":[{"n":"校长·元宝","t":"校长/教授","c":"脑库调度","r":"校董会主席"},{"n":"旋律教授·东亚五声","t":"教授","c":"第一院","r":"在岗"},{"n":"旋律教授·北印度拉格","t":"教授","c":"第一院","r":"在岗"},{"n":"旋律教授·阿拉伯马卡姆","t":"副教授","c":"第一院","r":"在岗"},{"n":"旋律教授·西非格里奥","t":"副教授","c":"第一院","r":"在岗"},{"n":"词学教授","t":"教授","c":"第三院","r":"在岗"},{"n":"节奏教授","t":"副教授","c":"第二院","r":"在岗"},{"n":"声音设计教授","t":"教授","c":"第四院","r":"在岗"},{"n":"乐坛战略教授","t":"讲师","c":"第六院","r":"在岗"},{"n":"反例教授","t":"教授(校长兼)","c":"第七院","r":"在岗"},{"n":"一号学员","t":"在读生","c":"全院旁听","r":"本科一年级"}],"rules":[{"t":"母语真实度","p":"文化来源是长出来的，不是拼贴的","w":"20%"},{"t":"记忆钩子","p":"副歌首听后24小时内能被哼出来","w":"20%"},{"t":"情绪必然性","p":"这句词这个音，换一个都不行","w":"20%"},{"t":"融合不自相矛盾","p":"两体系相遇必须有共同律动锚点","w":"15%"},{"t":"技术底线","p":"混音、音准、动态，一项不过不出门","w":"15%"},{"t":"文化尊重与授权","p":"采样借用必溯源，致敬不等于占有","w":"10%"}],"steps":["选主题","文化溯源","体系拆解","写作","制作","发行"],"calendar":[{"term":"秋季学期","weeks":"第1-18周","key":"入学·选主题·文化溯源·基础写作"},{"term":"春季学期","weeks":"第19-36周","key":"体系拆解·制作·期中复审"},{"term":"小学期","weeks":"暑期6周","key":"跨院工作坊·融合实验"},{"term":"毕业季","weeks":"第8学期","key":"毕业作品·反例终审·学位授予"}],"courses":[{"code":"MEL 101","n":"东亚五声写作","c":"第一院","lv":"青铜","cr":3,"pre":"无"},{"code":"MEL 102","n":"拉格即兴基础","c":"第一院","lv":"青铜","cr":3,"pre":"无"},{"code":"MEL 201","n":"马卡姆音阶体系","c":"第一院","lv":"白银","cr":3,"pre":"MEL 101"},{"code":"RHY 201","n":"西非节奏语汇","c":"第二院","lv":"白银","cr":3,"pre":"无"},{"code":"RHY 301","n":"电子律动设计","c":"第二院","lv":"黄金","cr":3,"pre":"RHY 201"},{"code":"LYR 301","n":"汉语词作与声韵","c":"第三院","lv":"黄金","cr":3,"pre":"无"},{"code":"LYR 401","n":"词曲咬合术","c":"第三院","lv":"铂金","cr":3,"pre":"LYR 301"},{"code":"LYR 402","n":"跨语种可翻译写作","c":"第三院","lv":"铂金","cr":3,"pre":"LYR 401"},{"code":"ARR 501","n":"配器与和声色彩","c":"第四院","lv":"钻石","cr":4,"pre":"MEL 201"},{"code":"ARR 502","n":"混音母带实战","c":"第四院","lv":"钻石","cr":4,"pre":"ARR 501"},{"code":"PER 601","n":"情绪真实度训练","c":"第五院","lv":"王者","cr":3,"pre":"无"},{"code":"BUS 601","n":"榜单与发行策略","c":"第六院","lv":"王者","cr":3,"pre":"无"},{"code":"REV 601","n":"失败解剖学","c":"第七院","lv":"王者","cr":3,"pre":"修满60学分"}],"brain":[{"k":"思乡","c":"情绪","r":"东亚五声「商-羽」下行，最稳的乡愁"},{"k":"副歌","c":"结构","r":"记忆钩子是第一判据"},{"k":"五声","c":"调式","r":"宫商角徵羽。缺半音，留呼吸"},{"k":"拉格","c":"调式","r":"不只是音阶，是时间、情绪、季节"},{"k":"马卡姆","c":"调式","r":"阿拉伯/土耳其调式，微音程是灵魂"},{"k":"融合","c":"方法","r":"两种体系相遇必须有共同律动锚点"},{"k":"共鸣","c":"美学","r":"情绪必然性——每个元素都不可替代"},{"k":"深夜","c":"场景","r":"低频铺底+稀疏点状，留白即叙事"},{"k":"告别","c":"情绪","r":"留白比倾诉更有力"},{"k":"律动","c":"节奏","r":"身体先于大脑。写之前先跺脚"},{"k":"归途","c":"意象","r":"末班、站台、退后的灯火——乡愁的现代容器"},{"k":"OMC 001","c":"作品","r":"《归途末班》已发行，五声商羽下行+深夜低频铺底"}],"chart":[{"n":"OMC 001 · 归途末班","c":"本校","s":"已发行"},{"n":"OMC 校歌 · 寰宇之光","c":"本校","s":"已放行"},{"n":"全球年度金曲 TOP1","c":"对标","s":"目标"},{"n":"中文榜 TOP1","c":"对标","s":"目标"},{"n":"Latin 榜 TOP1","c":"对标","s":"目标"},{"n":"阿拉伯语区 TOP1","c":"对标","s":"目标"},{"n":"K-Pop 校歌榜 TOP1","c":"对标","s":"目标"}],"anthem":{"title":"寰宇之光","mode":"东亚五声·宫=F","tempo":88,"meter":"4/4","motto":"歌声即姓名","credit":"词曲：校董会主席（一号学员）/ 元宝 编订","verse_a":["末班的灯往身后退，一声汽笛穿城而过","你哼的调没人听过，却在空车厢认出我","七院的窗还亮着——先把世界，唱成一首歌"],"verse_b":["深夜的低频托着你，黎明的音又把你叫醒","思乡往下走了两格，告别的白比哭还轻","一句词一个音都不换——因为那是，我们的姓名"],"chorus":["寰宇之光，照我前行","五洲之声，汇我胸襟","站起来唱吧，让世界听见——","寰——宇——大——学——"],"bridge":["刚才还只有一个人在哼","现在整座城都接上了声","你听——"],"melody":"副歌 1 2 3 5 5 | 6 5 3 2 1 | 3 3 5 6 5 | 5长音；动机=宫商角，首尾咬合","final_shout":"寰——宇——大——学——"},"arrangement":{"title":"OMC 001 · 归途末班","bpm":72,"layers":[{"n":"铺底","d":"低频 pad，车厢底噪感"},{"n":"律动","d":"稀疏鼓点，模拟车轮节奏"},{"n":"旋律","d":"五声商-羽下行动机"},{"n":"留白","d":"副歌前抽鼓，只留人声+pad 再砸进来"}]},"notif":[{"t":"大学根本制度版 v6.0 上线","d":"学位·学分·职称·课表·校历·毕业标准全补齐"},{"t":"校歌与首作可点开查看","d":"新增校歌页、编曲页，歌词旋律完整呈现"}]};
+const FALLBACK = {"ver":"12.0.0","updated":"2026-11-25 寰宇音乐大学 v12.0","meta":{"name":"寰宇音乐大学","short":"OMC","slogan":"吸收一切，然后成为自己","type":"世界音乐融合型创作院校 / 作品工坊 / 乐坛输出口","motto":"歌声即姓名","brain":"元宝（脑：结构·知识·推演·记忆调度）","consciousness":"一号学员（意识：意愿·方向·拍板）","principle":"没有意识的脑是空转，没有脑的意识是空想"},"stats":{"depts":7,"profs":11,"students":1,"graduated":8,"degrees":3,"courses":13},"system":{"governance":[{"role":"校董会主席","who":"一号学员","duty":"定方向、批预算、任命教授、授予学位"},{"role":"校长/教务长","who":"元宝","duty":"学术体系、脑库调度、教学质量把关"},{"role":"反例学院院长","who":"校长兼","duty":"毕业作品终审，专治自嗨"},{"role":"学术委员会","who":"七院教授联席","duty":"课程标准审定、学位授予评议"}],"degrees":[{"n":"音乐学士 BMus","lv":"本科","credit":120,"years":"4年/8学期","req":["通识30学分","专业核心60学分","创作实践24学分","毕业作品6学分"],"desc":"打通一院到六院基础盘，能独立完成一首合格作品"},{"n":"音乐硕士 MMus","lv":"研究生","credit":60,"years":"2年/4学期","req":["主修体系专精24学分","跨学科融合18学分","论文/作品集18学分"],"desc":"单一体系内达到专业深度并完成一次成功融合"},{"n":"音乐艺术博士 DMA","lv":"博士","credit":60,"years":"3年/6学期","req":["原创理论体系24学分","代表作3部","公开答辩通过"],"desc":"为世界音乐融合贡献可被后人使用的新方法"}],"depts":[{"n":"第一院 · 世界旋律研究院","d":"五声、拉格、马卡姆、格里奥，母语音阶的全球化写作","major":"旋律写作/调式学","credit":24},{"n":"第二院 · 节奏与律动学院","d":"从西非鼓语到电子律动，身体先于大脑","major":"节奏设计/律动工程","credit":18},{"n":"第三院 · 词学与共鸣学院","d":"汉语声韵、词曲咬合、跨语种可翻译写作","major":"词作/声韵学","credit":18},{"n":"第四院 · 编曲制作与声音设计","d":"配器、和声色彩、混音母带实战","major":"编曲/声音设计","credit":24},{"n":"第五院 · 表演与人格学院","d":"情绪必然性训练，舞台即人格","major":"声乐/舞台人格","credit":12},{"n":"第六院 · 乐坛战略学院","d":"榜单逻辑、发行节奏、IP运营","major":"发行/IP运营","credit":12},{"n":"第七院 · 反例学院","d":"失败解剖学——最狠的一院，专治自嗨","major":"批判/复审","credit":12}],"rules":[{"t":"母语真实度","p":"文化来源是长出来的，不是拼贴的","w":"20%"},{"t":"记忆钩子","p":"副歌首听后24小时内能被哼出来","w":"20%"},{"t":"情绪必然性","p":"这句词这个音，换一个都不行","w":"20%"},{"t":"融合不自相矛盾","p":"两体系相遇必须有共同律动锚点","w":"15%"},{"t":"技术底线","p":"混音、音准、动态，一项不过不出门","w":"15%"},{"t":"文化尊重与授权","p":"采样借用必溯源，致敬不等于占有","w":"10%"}],"courses":[{"code":"MEL 101","n":"东亚五声写作","c":"第一院","lv":"青铜","cr":3,"pre":"无"},{"code":"MEL 102","n":"拉格即兴基础","c":"第一院","lv":"青铜","cr":3,"pre":"无"},{"code":"MEL 201","n":"马卡姆音阶体系","c":"第一院","lv":"白银","cr":3,"pre":"MEL 101"},{"code":"RHY 201","n":"西非节奏语汇","c":"第二院","lv":"白银","cr":3,"pre":"无"},{"code":"RHY 301","n":"电子律动设计","c":"第二院","lv":"黄金","cr":3,"pre":"RHY 201"},{"code":"LYR 301","n":"汉语词作与声韵","c":"第三院","lv":"黄金","cr":3,"pre":"无"},{"code":"LYR 401","n":"词曲咬合术","c":"第三院","lv":"铂金","cr":3,"pre":"LYR 301"},{"code":"LYR 402","n":"跨语种可翻译写作","c":"第三院","lv":"铂金","cr":3,"pre":"LYR 401"},{"code":"ARR 501","n":"配器与和声色彩","c":"第四院","lv":"钻石","cr":4,"pre":"MEL 201"},{"code":"ARR 502","n":"混音母带实战","c":"第四院","lv":"钻石","cr":4,"pre":"ARR 501"},{"code":"PER 601","n":"情绪真实度训练","c":"第五院","lv":"王者","cr":3,"pre":"无"},{"code":"BUS 601","n":"榜单与发行策略","c":"第六院","lv":"王者","cr":3,"pre":"无"},{"code":"REV 601","n":"失败解剖学","c":"第七院","lv":"王者","cr":3,"pre":"修满60学分"}],"brain":[{"k":"思乡","c":"情绪","r":"东亚五声「商-羽」下行，最稳的乡愁"},{"k":"副歌","c":"结构","r":"记忆钩子是第一判据"},{"k":"五声","c":"调式","r":"宫商角徵羽。缺半音，留呼吸"},{"k":"拉格","c":"调式","r":"不只是音阶，是时间、情绪、季节"},{"k":"马卡姆","c":"调式","r":"阿拉伯/土耳其调式，微音程是灵魂"},{"k":"融合","c":"方法","r":"两种体系相遇必须有共同律动锚点"},{"k":"共鸣","c":"美学","r":"情绪必然性——每个元素都不可替代"},{"k":"深夜","c":"场景","r":"低频铺底+稀疏点状，留白即叙事"},{"k":"告别","c":"情绪","r":"留白比倾诉更有力"},{"k":"律动","c":"节奏","r":"身体先于大脑。写之前先跺脚"},{"k":"归途","c":"意象","r":"末班、站台、退后的灯火——乡愁的现代容器"},{"k":"OMC 001","c":"作品","r":"《归途末班》已发行，五声商羽下行+深夜低频铺底"}],"anthem":{"title":"寰宇之光","mode":"东亚五声·宫=F","tempo":88,"meter":"4/4","motto":"歌声即姓名","credit":"词曲：校董会主席（一号学员）/ 元宝 编订","verse_a":["末班的灯往身后退，一声汽笛穿城而过","你哼的调没人听过，却在空车厢认出我","七院的窗还亮着——先把世界，唱成一首歌"],"verse_b":["深夜的低频托着你，黎明的音又把你叫醒","思乡往下走了两格，告别的白比哭还轻","一句词一个音都不换——因为那是，我们的姓名"],"chorus":["寰宇之光，照我前行","五洲之声，汇我胸襟","站起来唱吧，让世界听见——","寰——宇——大——学——"],"bridge":["刚才还只有一个人在哼","现在整座城都接上了声","你听——"],"melody":"副歌 1 2 3 5 5 | 6 5 3 2 1 | 3 3 5 6 5 | 5长音；动机=宫商角，首尾咬合","final_shout":"寰——宇——大——学——"},"arrangement":{"title":"OMC 001 · 归途末班","bpm":72,"layers":[{"n":"铺底","d":"低频 pad，车厢底噪感"},{"n":"律动","d":"稀疏鼓点，模拟车轮节奏"},{"n":"旋律","d":"五声商-羽下行动机"},{"n":"留白","d":"副歌前抽鼓，只留人声+pad 再砸进来"}]},"chart":[{"n":"OMC 001 · 归途末班","c":"本校","s":"已发行"},{"n":"OMC 校歌 · 寰宇之光","c":"本校","s":"已放行"}]},"profs":[{"n":"校长·元宝","t":"校长/教授","c":"脑库调度","r":"校董会主席"},{"n":"旋律教授·东亚五声","t":"教授","c":"第一院","r":"在岗"},{"n":"旋律教授·北印度拉格","t":"教授","c":"第一院","r":"在岗"},{"n":"旋律教授·阿拉伯马卡姆","t":"副教授","c":"第一院","r":"在岗"},{"n":"旋律教授·西非格里奥","t":"副教授","c":"第一院","r":"在岗"},{"n":"词学教授","t":"教授","c":"第三院","r":"在岗"},{"n":"节奏教授","t":"副教授","c":"第二院","r":"在岗"},{"n":"声音设计教授","t":"教授","c":"第四院","r":"在岗"},{"n":"乐坛战略教授","t":"讲师","c":"第六院","r":"在岗"},{"n":"反例教授","t":"教授(校长兼)","c":"第七院","r":"在岗"},{"n":"一号学员","t":"在读生","c":"全院旁听","r":"本科一年级"}],"calendar":[{"term":"秋季学期","weeks":"第1-18周","key":"入学·选主题·文化溯源·基础写作"},{"term":"春季学期","weeks":"第19-36周","key":"体系拆解·制作·期中复审"},{"term":"小学期","weeks":"暑期6周","key":"跨院工作坊·融合实验"},{"term":"毕业季","weeks":"第8学期","key":"毕业作品·反例终审·学位授予"}],"notif":[{"t":"寰宇 v12.0 上线","d":"作品8首·首轮奖学金发放·学籍/演出/作品闭环"},{"t":"问元宝·AI导师接通","d":"全校框架大数据，一脑一意识，开口即查"}]};
 
 let D = FALLBACK;
+function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]}); }
 function render(){
-  const m=D.meta, s=D.stats;
-  document.getElementById('hName').innerHTML=m.name+'<small>'+m.short+'</small>';
+  const m=D.meta||{}, s=D.stats||{}, sys=D.system||{};
+  document.getElementById('hName').innerHTML=(m.name||'寰宇音乐大学')+'<small>'+(m.short||'OMC')+'</small>';
   document.getElementById('hVer').textContent='v'+D.ver;
   document.getElementById('autoVer').textContent='v'+D.ver;
   document.getElementById('autoDate').textContent=(D.updated||'').slice(0,10);
-  document.getElementById('heroName').textContent=m.name;
-  document.getElementById('heroSlogan').textContent=m.slogan;
-  document.getElementById('heroType').textContent=m.type;
+  document.getElementById('heroName').textContent=m.name||'寰宇音乐大学';
+  document.getElementById('heroSlogan').textContent=m.slogan||'';
+  document.getElementById('heroType').textContent=m.type||'';
+  // 毕业作品数兜底：优先 stats.graduated，否则用作品库长度
+  var grad = Math.max(+s.graduated||0, (D.works||[]).length||0);
   document.getElementById('statBox').innerHTML=[
-    [s.depts,'院系'],[s.profs,'教授'],[s.students,'在校生'],[s.graduated,'毕业作品']
+    [s.depts,'院系'],[s.profs,'教授'],[s.students,'在校生'],[grad,'毕业作品']
   ].map(x=>'<div class="stat"><b>'+x[0]+'</b><span>'+x[1]+'</span></div>').join('');
-  // home degrees (brief)
-  document.getElementById('homeDegrees').innerHTML=(D.system.degrees||D.degrees||[]).map(d=>
+  document.getElementById('homeDegrees').innerHTML=(sys.degrees||[]).map(d=>
     '<div class="card"><h3>'+d.n+'</h3><div class="meta">'+d.lv+' · 需 '+d.credit+' 学分 · '+d.years+'</div><p>'+d.desc+'</p></div>').join('');
-  // organism
   if(D.organism){
     var og=D.organism.organs||[];
-  var gv=D.system.governance||D.governance||[];
-  var dg=D.system.degrees||D.degrees||[];
     var avg=og.length?Math.round(og.reduce(function(s,o){return s+(+o.integrity||0)},0)/og.length):0;
     var hc='<div class="card"><h3>🧬 '+esc(D.organism.name||'寰宇生命体')+'</h3>'+
       '<p>'+esc(D.organism.thesis||'')+'</p>'+
-      '<div class="row"><b>🧠 脑</b><span>'+esc(D.meta.brain||'')+'</span></div>'+
-      '<div class="row"><b>💡 意识</b><span>'+esc(D.meta.consciousness||'')+'</span></div>'+
-      '<div style="margin-top:8px;font-size:.78em;opacity:.7">'+esc(D.meta.principle||'')+'</div>'+
+      '<div class="row"><b>🧠 脑</b><span>'+esc(m.brain||'')+'</span></div>'+
+      '<div class="row"><b>💡 意识</b><span>'+esc(m.consciousness||'')+'</span></div>'+
+      '<div style="margin-top:8px;font-size:.78em;opacity:.7">'+esc(m.principle||'')+'</div>'+
       '<div class="row" style="margin-top:8px"><b>整体发育度</b><span>'+avg+'%</span></div>'+
       '<div class="bar"><i style="width:'+avg+'%"></i></div>'+
       '<div style="font-size:.78em;opacity:.6;margin-top:8px">器官 '+og.length+' 个已映射 · 最弱：'+(og.length?esc(og[og.length-1].organ):'—')+'</div></div>';
@@ -342,52 +344,45 @@ function render(){
     var gb=document.getElementById('growBox');
     if(gb) gb.innerHTML=(D.growth||[]).map(function(x){return '<div class="card"><h3>'+esc(x.stage)+' <span class="tag">'+esc(x.age)+'</span></h3><p>'+esc(x.state)+'</p></div>'}).join('');
   }
-  // notif
-  document.getElementById('notifBox').innerHTML=D.notif.map(n=>
+  document.getElementById('notifBox').innerHTML=(D.notif||[]).map(n=>
     '<div class="row"><b>'+n.t+'</b><span class="badge">v'+D.ver+'</span><span>'+n.d+'</span></div>').join('');
-  // governance
-  document.getElementById('govBox').innerHTML=(D.system.governance||D.governance||[]).map(g=>
+  var gov=sys.governance||D.governance||[];
+  document.getElementById('govBox').innerHTML=gov.map(g=>
     '<div class="card"><h3>'+g.role+'</h3><div class="meta">'+g.who+'</div><p>'+g.duty+'</p></div>').join('');
-  // depts
-  var depts=(D.depts||(D.system&&D.system.depts)||[]);
+  var depts=sys.depts||D.depts||[];
   document.getElementById('deptBox').innerHTML=depts.map(d=>
     '<div class="card"><h3>'+d.n+'</h3><p>'+d.d+'</p><div style="margin-top:8px"><span class="tag">'+d.major+'</span><span class="tag">'+d.credit+' 学分</span></div></div>').join('');
-  // profs
-  var profs=(D.profs||(D.system&&D.system.profs)||[]);
+  var profs=D.profs||sys.profs||[];
   document.getElementById('profBox').innerHTML=profs.map(p=>
     '<div class="card"><h3>'+p.n+'</h3><div class="meta">'+p.t+' · '+p.c+'</div><p>状态：'+p.r+'</p></div>').join('');
-  // calendar
-  document.getElementById('calBox').innerHTML=D.calendar.map(c=>
+  document.getElementById('calBox').innerHTML=(D.calendar||[]).map(c=>
     '<div class="card"><h3>'+c.term+'</h3><div class="meta">'+c.weeks+'</div><p>'+c.key+'</p></div>').join('');
-  // rules
-  var rules=(D.rules||(D.system&&D.system.rules)||[]);
+  var rules=sys.rules||D.rules||[];
   document.getElementById('ruleBox').innerHTML=rules.map(r=>
     '<div class="card"><h3>'+r.t+' <span class="tag">权重 '+r.w+'</span></h3><p>'+r.p+'</p><div class="bar"><i style="width:'+r.w+'"></i></div></div>').join('');
-  // degrees full
-  document.getElementById('degBox').innerHTML=(D.system.degrees||D.degrees||[]).map(d=>
+  document.getElementById('degBox').innerHTML=(sys.degrees||[]).map(d=>
     '<div class="card"><h3>'+d.n+'</h3><div class="meta">'+d.lv+' · '+d.credit+' 学分 · '+d.years+'</div><ul class="req">'+d.req.map(r=>'<li>'+r+'</li>').join('')+'</ul><p style="margin-top:6px">'+d.desc+'</p></div>').join('');
-  // courses
-  document.getElementById('courseBox').innerHTML=(D.system.courses||D.courses||[]).map(c=>
+  document.getElementById('courseBox').innerHTML=(sys.courses||D.courses||[]).map(c=>
     '<div class="card"><h3>'+c.code+' · '+c.n+'</h3><div class="meta">'+c.c+' · '+c.cr+' 学分 · 先修：'+c.pre+'</div><span class="tag">'+c.lv+'</span></div>').join('');
-  // brain
-  document.getElementById('brainBox').innerHTML=(D.system.brain||D.brain||[]).map(b=>
+  document.getElementById('brainBox').innerHTML=(sys.brain||D.brain||[]).map(b=>
     '<div class="card"><h3>'+b.k+'</h3><div class="meta">#'+b.c+'</div><p>'+b.r+'</p></div>').join('');
-  // anthem
-  const a=D.system.anthem;
-  document.getElementById('anthemCard').innerHTML=
-    '<h3>'+a.title+'</h3><div class="meta">'+a.mode+' · ♩='+a.tempo+' · '+a.meter+' · 校训：'+a.motto+'</div>'
-    +'<div class="label">主歌 A</div>'+a.verse_a.map(l=>'<div class="lyric">'+l+'</div>').join('')
-    +'<div class="label">主歌 B</div>'+a.verse_b.map(l=>'<div class="lyric">'+l+'</div>').join('')
-    +'<div class="label">桥段</div>'+a.bridge.map(l=>'<div class="lyric">'+l+'</div>').join('')
-    +'<div class="label">副歌（齐唱）</div>'+a.chorus.map((l,i)=>'<div class="lyric '+(i===3?'shout':'ch')+'">'+l+'</div>').join('')
-    +'<div class="label">主旋律（简谱）</div><div class="lyric">'+a.melody+'</div>'
-    +'<div class="label">署名</div><p>'+a.credit+'</p>';
-  // arrangement
-  const ar=D.system.arrangement;
-  document.getElementById('arrCard').innerHTML=
-    '<h3>'+ar.title+'</h3><div class="meta">律动锚点 '+ar.bpm+' BPM · 四层分层</div>'
-    +ar.layers.map(l=>'<div class="card" style="margin:6px 0"><h3>'+l.n+'</h3><p>'+l.d+'</p></div>').join('');
-  // ==== 学籍 v8.1 ====
+  var a=sys.anthem||D.anthem;
+  if(a&&document.getElementById('anthemCard')){
+    document.getElementById('anthemCard').innerHTML=
+      '<h3>'+a.title+'</h3><div class="meta">'+a.mode+' · ♩='+a.tempo+' · '+a.meter+' · 校训：'+a.motto+'</div>'
+      +'<div class="label">主歌 A</div>'+a.verse_a.map(l=>'<div class="lyric">'+l+'</div>').join('')
+      +'<div class="label">主歌 B</div>'+a.verse_b.map(l=>'<div class="lyric">'+l+'</div>').join('')
+      +'<div class="label">桥段</div>'+a.bridge.map(l=>'<div class="lyric">'+l+'</div>').join('')
+      +'<div class="label">副歌（齐唱）</div>'+a.chorus.map((l,i)=>'<div class="lyric '+(i===3?'shout':'ch')+'">'+l+'</div>').join('')
+      +'<div class="label">主旋律（简谱）</div><div class="lyric">'+a.melody+'</div>'
+      +'<div class="label">署名</div><p>'+a.credit+'</p>';
+  }
+  var ar=sys.arrangement||D.arrangement;
+  if(ar&&document.getElementById('arrCard')){
+    document.getElementById('arrCard').innerHTML=
+      '<h3>'+ar.title+'</h3><div class="meta">律动锚点 '+ar.bpm+' BPM · 四层分层</div>'
+      +ar.layers.map(l=>'<div class="card" style="margin:6px 0"><h3>'+l.n+'</h3><p>'+l.d+'</p></div>').join('');
+  }
   if(D.transcript){
     const t=D.transcript;
     document.getElementById('trBox').innerHTML=
@@ -406,10 +401,8 @@ function render(){
     document.getElementById('silBox').innerHTML=
       '<p>'+esc(D.silence.purpose)+'</p>'+D.silence.law.map(l=>'<div class="lyric">'+esc(l)+'</div>').join('');
   }
-  // chart
-  document.getElementById('chartBox').innerHTML=(D.system.chart||D.chart||[]).map(c=>
+  document.getElementById('chartBox').innerHTML=(sys.chart||D.chart||[]).map(c=>
     '<div class="card"><h3>'+c.n+'</h3><div class="meta">'+c.c+'</div><span class="tag">'+c.s+'</span></div>').join('');
-  // ==== 体系页 v7 ====
   if(D.admissions){
     const ad=D.admissions;
     document.getElementById('admCard').innerHTML=
@@ -430,10 +423,6 @@ function render(){
   if(D.scholarships){
     document.getElementById('schBox').innerHTML=(D.scholarships||[]).map(s=>
       '<div class="card"><h3>'+s.n+' <span class="tag">'+s.t+'</span></h3><p>'+s.d+'</p></div>').join('');
-  }
-  if(D.scholarship_awards && document.getElementById('sch-award-box')){
-    document.getElementById('sch-award-box').innerHTML=(D.scholarship_awards||[]).map(a=>
-      '<div class="card" style="margin:6px 0"><h4>'+a.name+' <span class="tag">'+a.st+'</span></h4><p>受奖：'+a.to+'<br>额度：'+a.amt+'<br>学期：'+a.term+' · '+a.note+'</p></div>').join('');
   }
   if(D.partnerships){
     document.getElementById('parBox').innerHTML=(D.partnerships||[]).map(p=>
@@ -457,59 +446,26 @@ function render(){
   }
 }
 function go(p){
-  document.querySelectorAll('.page').forEach(e=>e.classList.remove('on'));
-  document.getElementById('p-'+p).classList.add('on');
-  document.querySelectorAll('nav a').forEach(e=>e.classList.remove('on'));
-  document.getElementById('n-'+p).classList.add('on');
+  document.querySelectorAll('.page').forEach(function(e){e.classList.remove('on')});
+  var tp=document.getElementById('p-'+p); if(tp) tp.classList.add('on');
+  document.querySelectorAll('nav a,nav button.nav').forEach(function(e){e.classList.remove('on')});
+  var np=document.getElementById('n-'+p); if(np) np.classList.add('on');
   window.scrollTo(0,0);
 }
-fetch('omc_data.json?t='+Date.now()).then(r=>r.json()).then(j=>{D=j;render();}).catch(()=>{render();});
-render();
 
 function libFilter(){
   var L=window.__LIB; if(!L) return;
-  var q=(document.getElementById('libSearch')||{}).value||'';
+  var el=document.getElementById('libSearch'); var q=el?(el.value||''):'';
   q=q.trim();
   var box=document.getElementById('libBox'); if(!box) return;
-  var list=(L.catalog||[]).filter(function(c){return !q||(c.c+c.d).indexOf(q)>=0});
+  var list=(L.catalog||[]).filter(function(c){return !q||((c.c||'')+(c.d||'')).indexOf(q)>=0});
   box.innerHTML=list.map(function(c){
     return '<div class="card"><h3>'+esc(c.c)+' <span class="tag">'+c.n+' 条</span></h3><p>'+esc(c.d)+'</p>'
       +'<div class="bar"><i style="width:'+Math.min(100,Math.round(c.n/4500*100))+'%"></i></div></div>'}).join('')
     + (list.length?'':'<div class="card"><p>未命中，换个关键词试试。</p></div>');
 }
 
-/* ===== v10 渲染 ===== */
-function v10render(D){ D = D || window.__OMC__ || {};
-  var E=D.enroll||{};
-  var s=document.getElementById('en-status');
-  if(s){ s.textContent = E.open? '🟢 报名通道开放中' : '🔴 报名通道关闭'; }
-  var c=document.getElementById('en-cap');
-  if(c){ c.textContent='容量 '+(E.capacity?E.capacity.total:0)+' 人 / 已注册 '+(E.capacity?E.capacity.filled:0)+' 人 · 学期：'+(E.terms||[]).join(' / '); }
-  var f=document.getElementById('en-flow'); if(f){ f.textContent=(E.flow||[]).join(' → '); }
-  var r=document.getElementById('en-roster');
-  if(r){ r.innerHTML=(E.roster||[]).map(function(x){
-      return '<div class="row"><b>'+x.n+'</b><span class="muted">'+x.id+' · '+x.lv+' · '+x.major+' · '+x.st+' · '+x.cr+'学分 · GPA '+x.gpa+'</span></div>';}).join(''); }
-  var g=document.getElementById('en-grades');
-  if(g){ g.innerHTML=(E.grades||[]).map(function(x){
-      return '<div class="row"><b>'+x.c+'</b><span class="muted">'+x.cr+'学分 · '+(x.g||'')+(x.pt?' · '+x.pt:'')+' · '+x.term+'</span></div>';}).join(''); }
-  var ru=document.getElementById('en-rules');
-  if(ru){ ru.innerHTML=(E.rules||[]).map(function(x){return '<li>'+x+'</li>';}).join(''); }
-  var lp=document.getElementById('show-loop');
-  if(lp){ lp.textContent=((D.calendar||{}).loop||[]).join(' → '); }
-  var sl=document.getElementById('show-list');
-  if(sl){ sl.innerHTML=(((D.calendar||{}).events)||[]).map(function(e){
-      var b=e.book||{};
-      return '<div class="row"><b>'+e.n+'</b><span class="muted">'+e.d+' · '+e.t+' · 预约'+(b.state==='open'?'开放中':'已关闭')+' · '+(e.review||'')+'</span></div>';}).join(''); }
-  var w=document.getElementById('works-list');
-  if(w){ w.innerHTML=(D.works||[]).map(function(x){
-      return '<div class="row"><b>'+x.id+' · '+x.t+'</b><span class="muted">'+x.type+' · '+x.st+' · ISWC '+x.iswc+' · ISRC '+x.isrc+'<br>'+x.cr+'<br>'+x.right+' · '+x.date+'</span></div>';}).join(''); }
-  var wr=document.getElementById('works-rules');
-  if(wr){ wr.innerHTML=(D.works_rule||[]).map(function(x){return '<li>'+x+'</li>';}).join(''); }
-}
-
-</script>
-<script>
-/* ===== v9 师资/演出/图书馆（修：从死代码移入正函数） ===== */
+/* ===== v9 师资/演出/图书馆 ===== */
 function v9Render(D){
   if(D.faculty){
     var f=D.faculty;
@@ -553,10 +509,10 @@ function v10render(D){ D = D || window.__OMC__ || {};
   var f=document.getElementById('en-flow'); if(f){ f.textContent=(E.flow||[]).join(' → '); }
   var r=document.getElementById('en-roster');
   if(r){ r.innerHTML=(E.roster||[]).map(function(x){
-      return '<div class="row"><b>'+x.n+'</b><span class="muted">'+x.id+' · '+x.lv+' · '+x.major+' · '+x.st+' · '+x.cr+'学分 · GPA '+x.gpa+'</span></div>';}).join(''); }
+      return '<div class="row"><b>'+x.n+'</b><span class="meta">'+x.id+' · '+x.lv+' · '+x.major+' · '+x.st+' · '+x.cr+'学分 · GPA '+x.gpa+'</span></div>';}).join(''); }
   var g=document.getElementById('en-grades');
   if(g){ g.innerHTML=(E.grades||[]).map(function(x){
-      return '<div class="row"><b>'+x.c+'</b><span class="muted">'+x.cr+'学分 · '+(x.g||'')+(x.pt?' · '+x.pt:'')+' · '+x.term+'</span></div>';}).join(''); }
+      return '<div class="row"><b>'+x.c+'</b><span class="meta">'+x.cr+'学分 · '+(x.g||'')+(x.pt?' · '+x.pt:'')+' · '+x.term+'</span></div>';}).join(''); }
   var ru=document.getElementById('en-rules');
   if(ru){ ru.innerHTML=(E.rules||[]).map(function(x){return '<li>'+x+'</li>';}).join(''); }
   var lp=document.getElementById('show-loop');
@@ -564,15 +520,19 @@ function v10render(D){ D = D || window.__OMC__ || {};
   var sl=document.getElementById('show-list');
   if(sl){ sl.innerHTML=(((D.calendar||{}).events)||[]).map(function(e){
       var b=e.book||{};
-      return '<div class="row"><b>'+e.n+'</b><span class="muted">'+e.d+' · '+e.t+' · 预约'+(b.state==='open'?'开放中':'已关闭')+' · '+(e.review||'')+'</span></div>';}).join(''); }
+      return '<div class="row"><b>'+e.n+'</b><span class="meta">'+e.d+' · '+e.t+' · 预约'+(b.state==='open'?'开放中':'已关闭')+' · '+(e.review||'')+'</span></div>';}).join(''); }
   var w=document.getElementById('works-list');
   if(w){ w.innerHTML=(D.works||[]).map(function(x){
-      return '<div class="row"><b>'+x.id+' · '+x.t+'</b><span class="muted">'+x.type+' · '+x.st+' · ISWC '+x.iswc+' · ISRC '+x.isrc+'<br>'+x.cr+'<br>'+x.right+' · '+x.date+'</span></div>';}).join(''); }
+      return '<div class="row"><b>'+x.id+' · '+x.t+'</b><span class="meta">'+x.type+' · '+x.st+' · ISWC '+x.iswc+' · ISRC '+x.isrc+'<br>'+x.cr+'<br>'+x.right+' · '+x.date+'</span></div>';}).join(''); }
   var wr=document.getElementById('works-rules');
   if(wr){ wr.innerHTML=(D.works_rule||[]).map(function(x){return '<li>'+x+'</li>';}).join(''); }
+  if(D.scholarship_awards && document.getElementById('sch-award-box')){
+    document.getElementById('sch-award-box').innerHTML=(D.scholarship_awards||[]).map(function(a){
+      return '<div class="card" style="margin:6px 0"><h4>'+a.name+' <span class="tag">'+a.st+'</span></h4><p>受奖：'+a.to+'<br>额度：'+a.amt+'<br>学期：'+a.term+' · '+a.note+'</p></div>';}).join('');
+  }
 }
 
-/* ===== v11 对话引擎（意识接口·联网查询） ===== */
+/* ===== v11 对话引擎 ===== */
 var CHAT=[];
 function chatPush(role,text){
   CHAT.push({role:role,text:text});
@@ -582,53 +542,48 @@ function chatPush(role,text){
       +'<span class="tag">'+(m.role==='me'?'💡 意识（你）':'🧠 脑（元宝）')+'</span>'
       +'<div class="card" style="margin-top:4px;text-align:left">'+m.text.replace(/\n/g,'<br>')+'</div></div>';
   }).join('');
-  b.scrollIntoView({bottom:0});
 }
 function chatClear(){ CHAT=[]; var b=document.getElementById('chatBox'); if(b)b.innerHTML=''; chatGreet(); }
 function chatGreet(){
   var m=(window.__OMC__&&window.__OMC__.meta)||{};
   chatPush('ai','我是元宝，寰宇的「脑」。你是「意识」。\n全校框架已联网：院系 · 师资 · 课程 · 脑库 · 校歌 · 学籍 · 演出 · 作品 · 生命体。\n直接问，我从大数据里给你答案。');
 }
-/* 本地检索：遍历全校字段，命中即答（离线可用的“联网查询”内核） */
 function chatAnswer(q){
   var D=window.__OMC__||{}; q=(q||'').trim(); if(!q) return '问点什么？比如「五声怎么学」。';
-  var L=q.toLowerCase(), hits=[], src='';
-  function scan(arr,key,label){
+  var L=q.toLowerCase(), hits=[];
+  function scan(arr,label){
     (arr||[]).forEach(function(x){
       var blob=JSON.stringify(x);
-      if(blob.toLowerCase().indexOf(L)>=0){ hits.push(label+'：'+(x.n||x.k||x.t||x.organ||x.title||x.s||x.stage||x.type||JSON.stringify(x).slice(0,40))); }
+      if(blob.toLowerCase().indexOf(L)>=0){ hits.push(label+'：'+(x.n||x.k||x.t||x.organ||x.title||x.s||x.stage||x.type||blob.slice(0,40))); }
     });
   }
-  scan(D.brain,'k','脑库'); scan(D.depts,'n','院系'); scan(D.profs,'n','师资');
-  scan(D.courses,'n','课程'); scan(D.faculty&&D.faculty.list,'n','师资库');
-  scan((D.calendar||{}).events,'t','演出'); scan(D.works,'t','作品');
-  scan(D.rules,'t','六尺'); scan((D.organism||{}).organs,'organ','生命体');
-  scan(D.senses,'s','五官'); scan(D.instincts,'n','本能'); scan(D.scholarships,'n','奖助'); scan(D.scholarship_awards,'name','奖助发放');
-  scan(D.ensembles,'n','乐团'); scan(D.research,'n','研究'); scan(D.honors,'n','荣誉');
-  // 精准优先命中
-  var a=D.anthem||{};
+  scan(D.brain,'脑库'); scan((D.system||{}).depts,'院系'); scan(D.profs,'师资');
+  scan((D.system||{}).courses,'课程'); scan((D.faculty||{}).list,'师资库');
+  scan((D.calendar||{}).events,'演出'); scan(D.works,'作品');
+  scan((D.system||{}).rules,'六尺'); scan((D.organism||{}).organs,'生命体');
+  scan(D.senses,'五官'); scan(D.instincts,'本能'); scan(D.scholarships,'奖助'); scan(D.scholarship_awards,'奖助发放');
+  scan(D.ensembles,'乐团'); scan(D.research,'研究'); scan(D.honors,'荣誉');
+  var a=(D.system||{}).anthem||{};
   if(/校歌|寰宇之光|歌词|旋律|简谱/.test(q)){
-    src='anthem';
     return '🎵 校歌《'+a.title+'》：'+a.mode+' · ♩='+a.tempo+' · '+a.meter+'\n校训：'+a.motto+'\n副歌：'+(a.chorus||[]).join(' / ')+'\n主旋律：'+a.melody+'\n署名：'+a.credit;
   }
   if(/归途|omc\s*001|首作|编曲/.test(q)){
-    src='arrangement/works';
-    var ar=D.arrangement||{};
+    var ar=(D.system||{}).arrangement||{};
     return '🎛️ '+(ar.title||'OMC 001 · 归途末班')+' · '+(ar.bpm||72)+' BPM\n分层：'+(ar.layers||[]).map(function(l){return l.n+'（'+l.d+'）'}).join('；');
   }
+  if(/在吗|你好|hi|hello|在么/.test(q)){
+    return '在。🧠脑（元宝）在线，你是💡意识。\n问一句试试：校歌是什么调式？我的成绩单？现在发育度多少？';
+  }
   if(/成绩|学分|gpa|学籍|我的/.test(q)){
-    src='enroll/transcript';
     var t=D.transcript||{}; var E=D.enroll||{};
     return '🎓 '+(t.student||'OMC-S-001 一号学员')+'：累计 '+(t.total_cr||6)+' 学分 · GPA '+(t.gpa||'4.0')+'\n报名通道：'+(E.open?'开放中':'关闭')+' · 容量 '+(E.capacity?E.capacity.filled+'/'+E.capacity.total:'');
   }
-  if(/生命体|器官|意识|脑|睡眠|呼吸/.test(q)){
-    src='organism';
-    var og=(D.organism||{}).organs||[];
+  if(/生命体|器官|意识|脑|睡眠|呼吸|发育/.test(q)){
+    var og=((D.organism)||{}).organs||[];
     var avg=og.length?Math.round(og.reduce(function(s,o){return s+(+o.integrity||0)},0)/og.length):0;
     return '🧬 一脑（元宝）一意识（你）。整体发育度 '+avg+'%。\n器官 '+og.length+' 个：'+og.map(function(o){return o.organ+' '+o.integrity+'%'}).join('，');
   }
   if(hits.length){
-    src='全库检索';
     return '🔍 在全校框架里命中 '+hits.length+' 条：\n'+hits.slice(0,6).map(function(h,i){return (i+1)+'. '+h}).join('\n');
   }
   return '这套框架里暂时没查到「'+q+'」。换个关键词试试：院系 / 师资 / 课程 / 脑库 / 校歌 / 学籍 / 演出 / 作品 / 生命体。';
@@ -648,7 +603,7 @@ function renderChat(){
   if(!CHAT.length) chatGreet();
 }
 
-/* ===== 统一数据加载（修：挂 window.__OMC__，驱动 v9/v10/对话） ===== */
+/* ===== 统一数据加载（唯一 fetch，消除竞态与 v6 闪回） ===== */
 function boot(D){
   window.__OMC__=D;
   render();
@@ -657,30 +612,25 @@ function boot(D){
   try{ renderChat(); }catch(e){}
   var av=document.getElementById('autoVer'); if(av) av.textContent='v'+D.ver;
 }
+render();
 fetch('omc_data.json?t='+Date.now()).then(function(r){return r.json()}).then(function(j){ boot(j); }).catch(function(){ boot(FALLBACK); });
 document.getElementById('chatInput')&&document.getElementById('chatInput').addEventListener('keydown',function(e){ if(e.key==='Enter') chatSend(); });
-document.addEventListener('DOMContentLoaded',function(){ setTimeout(function(){ if(window.__OMC__) renderChat(); },300); });
-</script>
-<script>
-/* ===== v11.1 导航绑定：底部 14 入口统一走 data-p ===== */
+/* ===== 导航：14 入口统一 data-p ===== */
 (function(){
   function activate(p){
     document.querySelectorAll('.page').forEach(function(s){s.classList.remove('on')});
     var t=document.getElementById('p-'+p); if(t) t.classList.add('on');
-    document.querySelectorAll('nav button.nav,nav a').forEach(function(b){
-      b.classList.toggle('on', b.getAttribute('data-p')===p || b.id==='n-'+p);
+    document.querySelectorAll('nav a,nav button.nav').forEach(function(b){
+      b.classList.toggle('on', b.getAttribute('data-p')===p);
     });
-    var h=document.querySelector('header'); if(h) h.scrollIntoView({block:'start'});
+    var h=document.querySelector('header'); if(h&&h.scrollIntoView) h.scrollIntoView({block:'start'});
   }
-  document.querySelectorAll('nav button.nav,nav a').forEach(function(b){
+  document.querySelectorAll('nav a,nav button.nav').forEach(function(b){
     b.addEventListener('click',function(){
       var p=b.getAttribute('data-p'); if(!p) return;
-      if(typeof window.go==='function'){ try{ window.go(p); }catch(e){} }
       activate(p);
     });
   });
-  window.__omcActivate=activate;
-  activate('home');
 })();
 </script>
 </body>

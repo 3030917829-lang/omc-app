@@ -79,6 +79,7 @@
     <div class="tp" id="heroType"></div>
     <div class="stats" id="statBox"></div>
   </div>
+  <div id="orgBox"></div>
   <div class="sec-title">🎓 学位体系</div>
   <div id="homeDegrees"></div>
   <div class="sec-title">⚡ 快速入口</div>
@@ -87,6 +88,10 @@
     <div class="entry" onclick="go('course')"><div class="ic">📚</div><div class="lb">课程学分</div></div>
     <div class="entry" onclick="go('brain')"><div class="ic">🧠</div><div class="lb">世界脑库</div></div>
     <div class="entry" onclick="go('studio')"><div class="ic">🎵</div><div class="lb">创作工坊</div></div>
+    <div class="entry" onclick="go('sys')"><div class="ic">🏛️</div><div class="lb">大学体系</div></div>
+    <div class="entry" onclick="go('org')"><div class="ic">🧬</div><div class="lb">生命体</div></div>
+    <div class="entry" onclick="go('me')"><div class="ic">🎓</div><div class="lb">学籍成绩单</div></div>
+    <div class="entry" onclick="go('me')"><div class="ic">😴</div><div class="lb">静默期制度</div></div>
   </div>
   <div class="sec-title">🔔 通知中心</div>
   <div class="notif" id="notifBox"></div>
@@ -135,12 +140,67 @@
   <div id="chartBox"></div>
 </div>
 
+<!-- 体系 -->
+<div class="page wrap" id="p-sys">
+  <span class="back" onclick="go('home')">← 返回校园</span>
+  <div class="sec-title">🎯 招生与考试</div>
+  <div class="card" id="admCard"></div>
+  <div class="sec-title">🎻 乐团与演出</div>
+  <div id="ensBox"></div>
+  <div class="sec-title">📖 图书馆与档案</div>
+  <div class="card" id="libCard"></div>
+  <div class="sec-title">🏆 奖助学金</div>
+  <div id="schBox"></div>
+  <div class="sec-title">🌍 国际交流</div>
+  <div id="parBox"></div>
+  <div class="sec-title">🏟️ 硬件设施</div>
+  <div id="facBox"></div>
+  <div class="sec-title">🕊️ 通识教育</div>
+  <div id="libaBox"></div>
+  <div class="sec-title">🎖️ 荣誉与校友</div>
+  <div id="honBox"></div>
+  <div class="sec-title">🔬 研究机构</div>
+  <div id="resBox"></div>
+</div>
+
+<!-- 生命体 -->
+<div class="page wrap" id="p-org">
+  <span class="back" onclick="go('home')">← 返回校园</span>
+  <div class="sec-title">🧬 一脑 · 一意识</div>
+  <div class="card" id="orgHead"></div>
+  <div class="sec-title">🫀 器官映射（14）</div>
+  <div id="organBox"></div>
+  <div class="sec-title">⚡ 神经系统</div>
+  <div class="card" id="nervBox"></div>
+  <div class="sec-title">👁️ 五官</div>
+  <div id="senseBox"></div>
+  <div class="sec-title">🦁 本能</div>
+  <div id="instBox"></div>
+  <div class="sec-title">💓 驱动力</div>
+  <div id="driveBox"></div>
+  <div class="sec-title">🌱 发育阶段</div>
+  <div id="growBox"></div>
+</div>
+
+<!-- 学籍（v8.1） -->
+<div class="page wrap" id="p-me">
+  <span class="back" onclick="go('home')">← 返回校园</span>
+  <div class="sec-title">🎓 我的成绩单</div>
+  <div class="card" id="trBox"></div>
+  <div class="sec-title">📝 在线报名通道</div>
+  <div class="card" id="regBox"></div>
+  <div class="sec-title">😴 静默期制度（睡眠）</div>
+  <div class="card" id="silBox"></div>
+</div>
+
 <nav>
   <a class="on" onclick="go('home')" id="n-home"><span class="ni">🏠</span>校园</a>
   <a onclick="go('about')" id="n-about"><span class="ni">🏛️</span>我的</a>
   <a onclick="go('course')" id="n-course"><span class="ni">📚</span>课程</a>
   <a onclick="go('brain')" id="n-brain"><span class="ni">🧠</span>脑库</a>
   <a onclick="go('studio')" id="n-studio"><span class="ni">🎵</span>工坊</a>
+  <a onclick="go('sys')" id="n-sys"><span class="ni">🏛️</span>体系</a>
+  <a onclick="go('org')" id="n-org"><span class="ni">🧬</span>生命体</a>
 </nav>
 
 <script>
@@ -162,6 +222,37 @@ function render(){
   // home degrees (brief)
   document.getElementById('homeDegrees').innerHTML=D.degrees.map(d=>
     '<div class="card"><h3>'+d.n+'</h3><div class="meta">'+d.lv+' · 需 '+d.credit+' 学分 · '+d.years+'</div><p>'+d.desc+'</p></div>').join('');
+  // organism
+  if(D.organism){
+    var og=D.organism.organs||[];
+    var avg=og.length?Math.round(og.reduce(function(s,o){return s+(+o.integrity||0)},0)/og.length):0;
+    var hc='<div class="card"><h3>🧬 '+esc(D.organism.name||'寰宇生命体')+'</h3>'+
+      '<p>'+esc(D.organism.thesis||'')+'</p>'+
+      '<div class="row"><b>🧠 脑</b><span>'+esc(D.meta.brain||'')+'</span></div>'+
+      '<div class="row"><b>💡 意识</b><span>'+esc(D.meta.consciousness||'')+'</span></div>'+
+      '<div style="margin-top:8px;font-size:.78em;opacity:.7">'+esc(D.meta.principle||'')+'</div>'+
+      '<div class="row" style="margin-top:8px"><b>整体发育度</b><span>'+avg+'%</span></div>'+
+      '<div class="bar"><i style="width:'+avg+'%"></i></div>'+
+      '<div style="font-size:.78em;opacity:.6;margin-top:8px">器官 '+og.length+' 个已映射 · 最弱：'+(og.length?esc(og[og.length-1].organ):'—')+'</div></div>';
+    var oh=document.getElementById('orgBox'); if(oh) oh.innerHTML=hc;
+    var oh2=document.getElementById('orgHead'); if(oh2) oh2.innerHTML=hc;
+    var ob=document.getElementById('organBox');
+    if(ob) ob.innerHTML=og.map(function(o){return '<div class="card"><h3>'+esc(o.organ)+' <span class="tag">'+esc(o.dept)+'</span></h3>'+
+      '<p>'+esc(o.fn)+'</p><div class="meta">'+esc(o.note||'')+'</div>'+
+      '<div class="bar"><i style="width:'+(+o.integrity||0)+'%"></i></div></div>'}).join('');
+    var nv=document.getElementById('nervBox');
+    if(nv&&D.nervous) nv.innerHTML=['afferent','center','efferent','reflex','synapse'].map(function(k){
+      var lab={afferent:'传入（感官→脑）',center:'中枢（脑→意识）',efferent:'传出（意识→全身）',reflex:'反射（即时否决）',synapse:'突触（一次同步）'}[k];
+      return '<div class="row"><b>'+lab+'</b><span>'+esc(D.nervous[k]||'')+'</span></div>'}).join('');
+    var sb=document.getElementById('senseBox');
+    if(sb) sb.innerHTML=(D.senses||[]).map(function(x){return '<div class="card"><h3>'+esc(x.s)+'</h3><div class="meta">'+esc(x.map)+'</div><p>'+esc(x.use)+'</p></div>'}).join('');
+    var ib=document.getElementById('instBox');
+    if(ib) ib.innerHTML=(D.instincts||[]).map(function(x){return '<div class="row"><b>'+esc(x.n)+'</b><span>'+esc(x.d)+'</span></div>'}).join('');
+    var db=document.getElementById('driveBox');
+    if(db) db.innerHTML=(D.drives||[]).map(function(x){return '<div class="card"><h3>'+esc(x.n)+'</h3><p>'+esc(x.d)+'</p></div>'}).join('');
+    var gb=document.getElementById('growBox');
+    if(gb) gb.innerHTML=(D.growth||[]).map(function(x){return '<div class="card"><h3>'+esc(x.stage)+' <span class="tag">'+esc(x.age)+'</span></h3><p>'+esc(x.state)+'</p></div>'}).join('');
+  }
   // notif
   document.getElementById('notifBox').innerHTML=D.notif.map(n=>
     '<div class="row"><b>'+n.t+'</b><span class="badge">v'+D.ver+'</span><span>'+n.d+'</span></div>').join('');
@@ -169,16 +260,19 @@ function render(){
   document.getElementById('govBox').innerHTML=D.governance.map(g=>
     '<div class="card"><h3>'+g.role+'</h3><div class="meta">'+g.who+'</div><p>'+g.duty+'</p></div>').join('');
   // depts
-  document.getElementById('deptBox').innerHTML=D.depts.map(d=>
+  var depts=(D.depts||(D.system&&D.system.depts)||[]);
+  document.getElementById('deptBox').innerHTML=depts.map(d=>
     '<div class="card"><h3>'+d.n+'</h3><p>'+d.d+'</p><div style="margin-top:8px"><span class="tag">'+d.major+'</span><span class="tag">'+d.credit+' 学分</span></div></div>').join('');
   // profs
-  document.getElementById('profBox').innerHTML=D.profs.map(p=>
+  var profs=(D.profs||(D.system&&D.system.profs)||[]);
+  document.getElementById('profBox').innerHTML=profs.map(p=>
     '<div class="card"><h3>'+p.n+'</h3><div class="meta">'+p.t+' · '+p.c+'</div><p>状态：'+p.r+'</p></div>').join('');
   // calendar
   document.getElementById('calBox').innerHTML=D.calendar.map(c=>
     '<div class="card"><h3>'+c.term+'</h3><div class="meta">'+c.weeks+'</div><p>'+c.key+'</p></div>').join('');
   // rules
-  document.getElementById('ruleBox').innerHTML=D.rules.map(r=>
+  var rules=(D.rules||(D.system&&D.system.rules)||[]);
+  document.getElementById('ruleBox').innerHTML=rules.map(r=>
     '<div class="card"><h3>'+r.t+' <span class="tag">权重 '+r.w+'</span></h3><p>'+r.p+'</p><div class="bar"><i style="width:'+r.w+'"></i></div></div>').join('');
   // degrees full
   document.getElementById('degBox').innerHTML=D.degrees.map(d=>
@@ -204,9 +298,70 @@ function render(){
   document.getElementById('arrCard').innerHTML=
     '<h3>'+ar.title+'</h3><div class="meta">律动锚点 '+ar.bpm+' BPM · 四层分层</div>'
     +ar.layers.map(l=>'<div class="card" style="margin:6px 0"><h3>'+l.n+'</h3><p>'+l.d+'</p></div>').join('');
+  // ==== 学籍 v8.1 ====
+  if(D.transcript){
+    const t=D.transcript;
+    document.getElementById('trBox').innerHTML=
+      '<h3>'+esc(t.student)+'</h3><div class="meta">入学 '+esc(t.admitted)+' · 累计 '+t.total_cr+' 学分 · GPA '+esc(t.gpa)+'</div>'
+      +t.records.map(r=>'<div class="card" style="margin:6px 0"><h3>'+esc(r.c)+' <span class="tag">'+esc(r.g)+'</span></h3><div class="meta">'+esc(r.no)+' · '+r.cr+' 学分 · '+esc(r.lv)+'</div><p>'+esc(r.note)+'</p></div>').join('')
+      +'<div class="label">毕业进度</div><div class="lyric">'+esc(t.progress)+'</div>';
+  }
+  if(D.admissions&&D.admissions.form){
+    const ad=D.admissions;
+    document.getElementById('regBox').innerHTML=
+      '<div class="label">报考层级</div><div class="meta">'+ad.tracks.map(esc).join(' / ')+'</div>'
+      +'<div class="label">流程</div>'+ad.steps.map((s,i)=>'<div class="lyric">'+(i+1)+'. '+esc(s)+'</div>').join('')
+      +'<div class="label">报名表字段</div>'+ad.form.map(f=>'<div class="row"><b>'+esc(f.k)+'</b><span>'+esc(f.t)+'</span></div>').join('');
+  }
+  if(D.silence){
+    document.getElementById('silBox').innerHTML=
+      '<p>'+esc(D.silence.purpose)+'</p>'+D.silence.law.map(l=>'<div class="lyric">'+esc(l)+'</div>').join('');
+  }
   // chart
   document.getElementById('chartBox').innerHTML=D.chart.map(c=>
     '<div class="card"><h3>'+c.n+'</h3><div class="meta">'+c.c+'</div><span class="tag">'+c.s+'</span></div>').join('');
+  // ==== 体系页 v7 ====
+  if(D.admissions){
+    const ad=D.admissions;
+    document.getElementById('admCard').innerHTML=
+      '<div class="label">升学层级</div>'+ad.levels.map(l=>'<div class="card" style="margin:6px 0"><h3>'+l.n+'</h3><div class="meta">'+l.age+'</div><p>考试：'+l.exam+' · '+l.note+'</p></div>').join('')
+      +'<div class="label">考核环节</div>'+ad.exam.map(e=>'<div class="card" style="margin:6px 0"><h3>'+e.n+'</h3><p>'+e.d+'</p></div>').join('')
+      +'<div class="label">Jury 制度</div><div class="lyric ch">'+ad.jury+'</div>';
+  }
+  if(D.ensembles){
+    document.getElementById('ensBox').innerHTML=D.ensembles.map(e=>
+      '<div class="card"><h3>'+e.n+'</h3><div class="meta">'+e.t+'</div><p>'+e.d+'</p></div>').join('');
+  }
+  if(D.library){
+    const lb=D.library;
+    document.getElementById('libCard').innerHTML=
+      '<h3>'+lb.title+'</h3><div class="meta">'+lb.holdings+'</div>'
+      +lb.collections.map(c=>'<div class="card" style="margin:6px 0"><h3>'+c.n+'</h3><p>'+c.d+'</p></div>').join('');
+  }
+  if(D.scholarships){
+    document.getElementById('schBox').innerHTML=D.scholarships.map(s=>
+      '<div class="card"><h3>'+s.n+' <span class="tag">'+s.t+'</span></h3><p>'+s.d+'</p></div>').join('');
+  }
+  if(D.partnerships){
+    document.getElementById('parBox').innerHTML=D.partnerships.map(p=>
+      '<div class="card"><h3>'+p.n+'</h3><p>'+p.d+'</p></div>').join('');
+  }
+  if(D.facilities){
+    document.getElementById('facBox').innerHTML=D.facilities.map(f=>
+      '<div class="card"><h3>'+f.n+'</h3><p>'+f.d+'</p></div>').join('');
+  }
+  if(D.liberal){
+    document.getElementById('libaBox').innerHTML=D.liberal.map(l=>
+      '<div class="card"><h3>'+l.n+'</h3><p>'+l.d+'</p></div>').join('');
+  }
+  if(D.honors){
+    document.getElementById('honBox').innerHTML=D.honors.map(h=>
+      '<div class="card"><h3>'+h.n+'</h3><p>'+h.d+'</p></div>').join('');
+  }
+  if(D.research){
+    document.getElementById('resBox').innerHTML=D.research.map(r=>
+      '<div class="card"><h3>'+r.n+'</h3><p>'+r.d+'</p></div>').join('');
+  }
 }
 function go(p){
   document.querySelectorAll('.page').forEach(e=>e.classList.remove('on'));
